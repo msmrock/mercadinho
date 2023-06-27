@@ -1,0 +1,83 @@
+package com.teste.primeiroexemplo.repository;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.stereotype.Repository;
+import com.teste.primeiroexemplo.model.Produto;
+import com.teste.primeiroexemplo.model.exception.ResourceNotFoundException;
+
+@Repository
+public class ProdutoRepository_old {
+
+  private List<Produto> produtos = new ArrayList<Produto>();
+  private Integer ultimoId = 0;
+
+  /**
+   * Metodo para retornar uma lista de produtos
+   * @return Lista de produtos
+   */
+  public List<Produto> obterTodos(){
+    return produtos;
+  }
+
+  /**
+   * Metodo que retorna o produto encontrado pelo seu ID
+   * @param id ID do produto que seralocalizao
+   * @return Retorna um produco caso tenha encontrado.
+   */
+  public Optional<Produto> obterPorId(Integer id){
+   return produtos
+   .stream()
+   .filter(produto -> produto
+   .getId() == id).findFirst(); 
+  }
+
+  /**
+   * Metodo para adionar produto a lista
+   * @param produto que sera adiconado
+   * @return o produto que foi adcionado a lsita
+   */
+  public Produto adicionar(Produto produto){
+    ultimoId++;
+    produto.setId(ultimoId);
+    produtos.add(produto);
+
+    return produto;
+  }
+
+  /**
+   * Metodo para deletar o porduto por id
+   * @param id do produto a ser deletado
+   */
+  public void deletar(Integer id){
+      produtos.removeIf(produto -> produto.getId() == id);
+
+  }
+
+  /**
+   * Metodo para atualizar o porduto na lista
+   * @param produto produto que sera atualizado
+   * @return retorna o produto apos atualizar
+   */
+  public Produto atualizar(Produto produto){
+      //encontar podruto da lista
+     Optional<Produto> produtoEncontrado = obterPorId(produto.getId());
+      if(produtoEncontrado.isEmpty()){
+        throw new ResourceNotFoundException("Produto não pode ser atualizado, não encontrado");
+
+      }
+     //remover o produto da lista
+      deletar(produto.getId());
+
+     //depois adicionar o produto atualizado na lista
+     produtos.add(produto);
+
+     return produto;
+
+  }
+
+
+
+}
