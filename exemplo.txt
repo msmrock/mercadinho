@@ -1,0 +1,15 @@
+Objetivo:
+
+Criar um API para controle de produtos 
+
+Modelo: 
+    Produto: id, nome, quantidade, atualizar, obeservacao
+
+Repositorio de porduto:
+    obterTodos, oberPorId, adicionar, atualizar, deletar.
+
+Serviço de produto:
+     obterTodos, oberPorId, adicionar, atualizar, deletar.
+
+Controller de produto
+    obterTodos, oberPorId, adicionar, atualizar, deletar.
